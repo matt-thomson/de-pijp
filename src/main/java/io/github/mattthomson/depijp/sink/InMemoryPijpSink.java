@@ -3,11 +3,12 @@ package io.github.mattthomson.depijp.sink;
 import cascading.tap.Tap;
 import cascading.tuple.Fields;
 import io.github.mattthomson.depijp.PijpException;
+import io.github.mattthomson.depijp.PijpSink;
 import io.github.mattthomson.depijp.cascading.InMemorySinkTap;
 
 import java.util.List;
 
-public class InMemoryPijpSink<T> implements PijpSink<T> {
+public class InMemoryPijpSink<T> extends PijpSink<T> {
     private InMemorySinkTap<T> tap;
 
     @Override

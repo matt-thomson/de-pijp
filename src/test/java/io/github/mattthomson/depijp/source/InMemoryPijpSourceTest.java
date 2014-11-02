@@ -3,6 +3,7 @@ package io.github.mattthomson.depijp.source;
 import cascading.tap.Tap;
 import cascading.tuple.Fields;
 import cascading.tuple.TupleEntryIterator;
+import io.github.mattthomson.depijp.PijpSource;
 import org.junit.Test;
 
 import java.util.ArrayList;

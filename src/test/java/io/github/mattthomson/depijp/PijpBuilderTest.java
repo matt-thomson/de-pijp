@@ -2,7 +2,6 @@ package io.github.mattthomson.depijp;
 
 import io.github.mattthomson.depijp.sink.InMemoryPijpSink;
 import io.github.mattthomson.depijp.source.InMemoryPijpSource;
-import io.github.mattthomson.depijp.source.PijpSource;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
