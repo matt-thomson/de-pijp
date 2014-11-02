@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class InMemoryPijpSourceTest {
     @Test
-    public void shouldBeAbleToReadFromTap() throws Exception {
+    public void shouldBeAbleToReadFromSource() throws Exception {
         PijpSource<String> source = new InMemoryPijpSource<>("one", "two", "three");
         Fields field = new Fields("field");
 

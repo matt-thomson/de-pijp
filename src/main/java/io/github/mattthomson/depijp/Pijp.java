@@ -16,7 +16,7 @@ public class Pijp<T> {
     }
 
     public void write(PijpSink<T> sink) {
-        sink.write(this);
+        sink.writeTo(this);
     }
 
     FlowDef getFlowDef() {

@@ -8,7 +8,7 @@ import io.github.mattthomson.depijp.cascading.InMemorySinkTap;
 
 import java.util.List;
 
-public class InMemoryPijpSink<T> extends PijpSink<T> {
+public class InMemoryPijpSink<T> implements PijpSink<T> {
     private InMemorySinkTap<T> tap;
 
     @Override

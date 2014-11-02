@@ -8,7 +8,7 @@ import io.github.mattthomson.depijp.cascading.InMemorySourceTap;
 
 import java.util.List;
 
-public class InMemoryPijpSource<T> extends PijpSource<T> {
+public class InMemoryPijpSource<T> implements PijpSource<T> {
     private final List<T> values;
 
     @SafeVarargs

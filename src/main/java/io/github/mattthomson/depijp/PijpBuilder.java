@@ -8,7 +8,7 @@ public class PijpBuilder {
     private final FlowDef flowDef = new FlowDef();
 
     public <T> Pijp<T> read(PijpSource<T> source) {
-        return source.read(flowDef);
+        return source.readFrom(flowDef);
     }
 
     public void run() {
