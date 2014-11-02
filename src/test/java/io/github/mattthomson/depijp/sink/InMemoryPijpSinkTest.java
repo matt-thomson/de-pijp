@@ -6,13 +6,19 @@ import cascading.tuple.Tuple;
 import cascading.tuple.TupleEntry;
 import cascading.tuple.TupleEntryCollector;
 import com.google.common.collect.ImmutableList;
+import io.github.mattthomson.depijp.PijpException;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class InMemoryPijpSinkTest {
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
+
     @Test
     public void shouldBeAbleToSinkIntoTap() throws Exception {
         Fields field = new Fields("field");
@@ -25,5 +31,24 @@ public class InMemoryPijpSinkTest {
 
         List<String> result = sink.getValues();
         assertThat(result).isEqualTo(values);
+    }
+
+    @Test
+    public void shouldNotBeAbleToSinkTwice() {
+        Fields field = new Fields("field");
+        InMemoryPijpSink<String> sink = new InMemoryPijpSink<>();
+
+        sink.createSinkTap(field);
+
+        exception.expect(PijpException.class);
+        sink.createSinkTap(field);
+    }
+
+    @Test
+    public void shouldNotBeAbleToGetValuesBeforeSinking() {
+        InMemoryPijpSink<String> sink = new InMemoryPijpSink<>();
+
+        exception.expect(PijpException.class);
+        sink.getValues();
     }
 }
