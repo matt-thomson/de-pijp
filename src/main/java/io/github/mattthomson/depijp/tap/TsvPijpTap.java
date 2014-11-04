@@ -22,7 +22,7 @@ public class TsvPijpTap extends FilePijpTap<List<String>> {
         super(path);
 
         fields = IntStream.range(0, numFields)
-                .mapToObj(i -> new Fields(String.format("tsv-field-%s", i)))
+                .mapToObj(i -> new Fields(String.format("%s-field-%s", path, i)))
                 .collect(Collectors.toList());
     }
 
