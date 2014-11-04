@@ -8,16 +8,16 @@ import cascading.tuple.TupleEntryCollector;
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
-import java.util.UUID;
 
 public class InMemorySinkTap<T> extends SinkTap<Properties, Void> {
-    private final String identifier = String.format("in-memory-sink-tap-%s", UUID.randomUUID());
     private final ListTupleEntryCollector<T> collector;
+    private final String identifier;
 
     public InMemorySinkTap(Fields field) {
         super(new InMemoryScheme(field));
 
         this.collector = new ListTupleEntryCollector<>(field);
+        this.identifier = String.format("in-memory-sink-tap-%s", field);
     }
 
     @Override
