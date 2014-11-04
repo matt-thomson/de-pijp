@@ -6,7 +6,6 @@ import cascading.tuple.Fields;
 import cascading.tuple.Tuple;
 import cascading.tuple.TupleEntry;
 import io.github.mattthomson.depijp.PijpSink;
-import io.github.mattthomson.depijp.PijpSource;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

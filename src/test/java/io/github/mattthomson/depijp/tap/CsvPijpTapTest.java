@@ -15,10 +15,10 @@ import static io.github.mattthomson.depijp.tap.PijpTapTestUtil.readFromSource;
 import static io.github.mattthomson.depijp.tap.PijpTapTestUtil.writeToSink;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TsvPijpTapTest {
+public class CsvPijpTapTest {
     @Test
     public void shouldReadTabSeparatedValuesFromFile() {
-        PijpSource<List<String>> tap = new TsvPijpTap("src/test/resources/values.tsv", 2);
+        PijpSource<List<String>> tap = new CsvPijpTap("src/test/resources/values.csv", 2);
         assertThat(readFromSource(tap)).containsExactly(
                 ImmutableList.of("one", "1"),
                 ImmutableList.of("two", "2"),
@@ -28,10 +28,10 @@ public class TsvPijpTapTest {
 
     @Test
     public void shouldWriteLinesToFile() throws IOException {
-        File outputFile = File.createTempFile("output", "tsv");
+        File outputFile = File.createTempFile("output", "csv");
         outputFile.deleteOnExit();
 
-        PijpSink<List<String>> tap = new TsvPijpTap(outputFile.getPath(), 2);
+        PijpSink<List<String>> tap = new CsvPijpTap(outputFile.getPath(), 2);
         writeToSink(tap,
                 ImmutableList.of("one", "1"),
                 ImmutableList.of("two", "2"),
@@ -39,6 +39,6 @@ public class TsvPijpTapTest {
         );
 
         List<String> result = Files.readLines(outputFile, Charsets.UTF_8);
-        assertThat(result).containsExactly("one\t1", "two\t2", "three\t3");
+        assertThat(result).containsExactly("one,1", "two,2", "three,3");
     }
 }
