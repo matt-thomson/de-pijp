@@ -1,9 +1,7 @@
 package io.github.mattthomson.depijp.sink;
 
 import cascading.tap.Tap;
-import cascading.tuple.Fields;
 import cascading.tuple.Tuple;
-import cascading.tuple.TupleEntry;
 import cascading.tuple.TupleEntryCollector;
 import com.google.common.collect.ImmutableList;
 import io.github.mattthomson.depijp.PijpException;
@@ -21,13 +19,12 @@ public class InMemoryPijpSinkTest {
 
     @Test
     public void shouldBeAbleToSinkIntoTap() throws Exception {
-        Fields field = new Fields("field");
         List<String> values = ImmutableList.of("one", "two", "three");
         InMemoryPijpSink<String> sink = new InMemoryPijpSink<>();
 
-        Tap tap = sink.createSinkTap(field);
+        Tap tap = sink.createSinkTap();
         TupleEntryCollector collector = tap.openForWrite(null);
-        values.forEach(v -> collector.add(new TupleEntry(field, new Tuple(v))));
+        values.forEach(v -> collector.add(new Tuple(v)));
 
         List<String> result = sink.getValues();
         assertThat(result).isEqualTo(values);
@@ -35,13 +32,12 @@ public class InMemoryPijpSinkTest {
 
     @Test
     public void shouldNotBeAbleToSinkTwice() {
-        Fields field = new Fields("field");
         InMemoryPijpSink<String> sink = new InMemoryPijpSink<>();
 
-        sink.createSinkTap(field);
+        sink.createSinkTap();
 
         exception.expect(PijpException.class);
-        sink.createSinkTap(field);
+        sink.createSinkTap();
     }
 
     @Test

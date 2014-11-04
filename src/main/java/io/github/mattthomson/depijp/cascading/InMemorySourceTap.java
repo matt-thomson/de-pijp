@@ -28,7 +28,7 @@ public class InMemorySourceTap<T> extends SourceTap<Properties, Void> {
     }
 
     @Override
-    public TupleEntryIterator openForRead(FlowProcess<Properties> flowProcess, Void aVoid) throws IOException {
+    public TupleEntryIterator openForRead(FlowProcess<Properties> flowProcess, Void input) throws IOException {
         return new ListTupleEntryIterator<>(field, values);
     }
 

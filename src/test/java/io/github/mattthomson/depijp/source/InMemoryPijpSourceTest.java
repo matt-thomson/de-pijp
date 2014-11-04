@@ -1,7 +1,6 @@
 package io.github.mattthomson.depijp.source;
 
 import cascading.tap.Tap;
-import cascading.tuple.Fields;
 import cascading.tuple.TupleEntryIterator;
 import io.github.mattthomson.depijp.PijpSource;
 import org.junit.Test;
@@ -15,13 +14,12 @@ public class InMemoryPijpSourceTest {
     @Test
     public void shouldBeAbleToReadFromSource() throws Exception {
         PijpSource<String> source = new InMemoryPijpSource<>("one", "two", "three");
-        Fields field = new Fields("field");
 
-        Tap tap = source.createSourceTap(field);
+        Tap tap = source.createSourceTap();
         TupleEntryIterator iterator = tap.openForRead(null);
 
         List<String> result = new ArrayList<>();
-        iterator.forEachRemaining(entry -> result.add(entry.getString(field)));
+        iterator.forEachRemaining(entry -> result.add(entry.getString(0)));
 
         assertThat(result).containsExactly("one", "two", "three");
     }

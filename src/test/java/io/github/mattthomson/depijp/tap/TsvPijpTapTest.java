@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TsvPijpTapTest {
     @Test
     public void shouldReadTabSeparatedValuesFromFile() {
-        PijpSource<List<String>> tap = new TsvPijpTap("src/test/resources/values.tsv");
+        PijpSource<List<String>> tap = new TsvPijpTap("src/test/resources/values.tsv", 2);
         assertThat(readFromSource(tap)).containsExactly(
                 ImmutableList.of("one", "1"),
                 ImmutableList.of("two", "2"),
@@ -31,7 +31,7 @@ public class TsvPijpTapTest {
         File outputFile = File.createTempFile("output", "txt");
         outputFile.deleteOnExit();
 
-        PijpSink<List<String>> tap = new TsvPijpTap(outputFile.getPath());
+        PijpSink<List<String>> tap = new TsvPijpTap(outputFile.getPath(), 2);
         writeToSink(tap,
                 ImmutableList.of("one", "1"),
                 ImmutableList.of("two", "2"),
@@ -41,5 +41,4 @@ public class TsvPijpTapTest {
         List<String> result = Files.readLines(outputFile, Charsets.UTF_8);
         assertThat(result).containsExactly("one\t1", "two\t2", "three\t3");
     }
-
 }

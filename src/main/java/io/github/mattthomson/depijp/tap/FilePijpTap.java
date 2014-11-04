@@ -1,10 +1,8 @@
 package io.github.mattthomson.depijp.tap;
 
 import cascading.scheme.Scheme;
-import cascading.scheme.local.TextLine;
 import cascading.tap.Tap;
 import cascading.tap.local.FileTap;
-import cascading.tuple.Fields;
 import io.github.mattthomson.depijp.PijpTap;
 
 import java.io.InputStream;
@@ -21,9 +19,9 @@ public abstract class FilePijpTap<T> implements PijpTap<T> {
     }
 
     @Override
-    public Tap createTap(Fields field) {
-        return new FileTap(getScheme(field), path, REPLACE);
+    public Tap createTap() {
+        return new FileTap(getScheme(), path, REPLACE);
     }
 
-    protected abstract Scheme<Properties, InputStream, OutputStream, ?, ?> getScheme(Fields field);
+    protected abstract Scheme<Properties, InputStream, OutputStream, ?, ?> getScheme();
 }

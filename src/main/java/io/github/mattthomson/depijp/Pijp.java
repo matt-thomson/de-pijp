@@ -1,8 +1,10 @@
 package io.github.mattthomson.depijp;
 
 import cascading.flow.FlowDef;
+import cascading.pipe.Each;
 import cascading.pipe.Pipe;
 import cascading.tuple.Fields;
+import io.github.mattthomson.depijp.cascading.ToTupleEntryFunction;
 
 public class Pijp<T> {
     private final FlowDef flowDef;
@@ -16,18 +18,7 @@ public class Pijp<T> {
     }
 
     public void write(PijpSink<T> sink) {
-        sink.writeTo(this);
-    }
-
-    FlowDef getFlowDef() {
-        return flowDef;
-    }
-
-    Pipe getPipe() {
-        return pipe;
-    }
-
-    Fields getField() {
-        return field;
+        Pipe transformed = new Each(pipe, new ToTupleEntryFunction<>(sink, field));
+        flowDef.addTailSink(transformed, sink.createSinkTap());
     }
 }
