@@ -2,8 +2,12 @@ package io.github.mattthomson.depijp.tap;
 
 import cascading.scheme.Scheme;
 import cascading.tap.Tap;
+import cascading.tap.hadoop.Hfs;
 import cascading.tap.local.FileTap;
 import io.github.mattthomson.depijp.DePijpTap;
+import org.apache.hadoop.mapred.JobConf;
+import org.apache.hadoop.mapred.OutputCollector;
+import org.apache.hadoop.mapred.RecordReader;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -19,9 +23,16 @@ public abstract class FileDePijpTap<T> implements DePijpTap<T> {
     }
 
     @Override
-    public Tap createTap() {
-        return new FileTap(getScheme(), path, REPLACE);
+    public Tap createLocalTap() {
+        return new FileTap(getLocalScheme(), path, REPLACE);
     }
 
-    protected abstract Scheme<Properties, InputStream, OutputStream, ?, ?> getScheme();
+    @Override
+    public Tap createHadoopTap() {
+        return new Hfs(getHadoopScheme(), path, REPLACE);
+    }
+
+    protected abstract Scheme<Properties, InputStream, OutputStream, ?, ?> getLocalScheme();
+
+    protected abstract Scheme<JobConf, RecordReader, OutputCollector, ?, ?> getHadoopScheme();
 }

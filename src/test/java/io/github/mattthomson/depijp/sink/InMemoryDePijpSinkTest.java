@@ -22,7 +22,7 @@ public class InMemoryDePijpSinkTest {
         List<String> values = ImmutableList.of("one", "two", "three");
         InMemoryDePijpSink<String> sink = new InMemoryDePijpSink<>();
 
-        Tap tap = sink.createSinkTap();
+        Tap tap = sink.createLocalSinkTap();
         TupleEntryCollector collector = tap.openForWrite(null);
         values.forEach(v -> collector.add(new Tuple(v)));
 
@@ -34,10 +34,10 @@ public class InMemoryDePijpSinkTest {
     public void shouldNotBeAbleToSinkTwice() {
         InMemoryDePijpSink<String> sink = new InMemoryDePijpSink<>();
 
-        sink.createSinkTap();
+        sink.createLocalSinkTap();
 
         exception.expect(DePijpException.class);
-        sink.createSinkTap();
+        sink.createLocalSinkTap();
     }
 
     @Test

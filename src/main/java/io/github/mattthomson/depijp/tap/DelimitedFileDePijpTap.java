@@ -1,12 +1,14 @@
 package io.github.mattthomson.depijp.tap;
 
 import cascading.scheme.Scheme;
-import cascading.scheme.local.TextDelimited;
 import cascading.tuple.Fields;
 import cascading.tuple.Tuple;
 import cascading.tuple.TupleEntry;
 import cascading.tuple.Tuples;
 import com.google.common.collect.ImmutableList;
+import org.apache.hadoop.mapred.JobConf;
+import org.apache.hadoop.mapred.OutputCollector;
+import org.apache.hadoop.mapred.RecordReader;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -29,8 +31,13 @@ public abstract class DelimitedFileDePijpTap extends FileDePijpTap<List<String>>
     }
 
     @Override
-    protected Scheme<Properties, InputStream, OutputStream, ?, ?> getScheme() {
-        return new TextDelimited(getOutputFields(), delimiter);
+    protected Scheme<Properties, InputStream, OutputStream, ?, ?> getLocalScheme() {
+        return new cascading.scheme.local.TextDelimited(getOutputFields(), delimiter);
+    }
+
+    @Override
+    protected Scheme<JobConf, RecordReader, OutputCollector, ?, ?> getHadoopScheme() {
+        return new cascading.scheme.hadoop.TextDelimited(getOutputFields(), delimiter);
     }
 
     @Override

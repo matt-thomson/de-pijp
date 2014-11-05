@@ -20,7 +20,12 @@ public class InMemoryDePijpSource<T> implements DePijpSource<T> {
     }
 
     @Override
-    public Tap createSourceTap() {
+    public Tap createLocalSourceTap() {
+        return new InMemorySourceTap<>(field, values);
+    }
+
+    @Override
+    public Tap createHadoopSourceTap() {
         return new InMemorySourceTap<>(field, values);
     }
 

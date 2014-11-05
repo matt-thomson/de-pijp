@@ -15,7 +15,7 @@ public class InMemoryDePijpSourceTest {
     public void shouldBeAbleToReadFromSource() throws Exception {
         DePijpSource<String> source = new InMemoryDePijpSource<>("one", "two", "three");
 
-        Tap tap = source.createSourceTap();
+        Tap tap = source.createLocalSourceTap();
         TupleEntryIterator iterator = tap.openForRead(null);
 
         List<String> result = new ArrayList<>();

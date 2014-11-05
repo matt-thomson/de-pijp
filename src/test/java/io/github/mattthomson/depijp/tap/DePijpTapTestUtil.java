@@ -26,7 +26,7 @@ public final class DePijpTapTestUtil {
     }
 
     private static <T> void runFlow(DePijpSource<T> source, DePijpSink<T> sink) {
-        PijpBuilder pijpBuilder = new PijpBuilder();
+        PijpBuilder pijpBuilder = PijpBuilder.local();
         pijpBuilder.read(source).write(sink);
         pijpBuilder.run();
     }
