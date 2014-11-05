@@ -10,10 +10,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
 
-public class TextLinePijpTap extends FilePijpTap<String> {
+public class TextLineDePijpTap extends FileDePijpTap<String> {
     private static final Fields FIELD = new Fields("line");
 
-    public TextLinePijpTap(String path) {
+    public TextLineDePijpTap(String path) {
         super(path);
     }
 

@@ -4,7 +4,7 @@ import cascading.tap.Tap;
 import cascading.tuple.Tuple;
 import cascading.tuple.TupleEntryCollector;
 import com.google.common.collect.ImmutableList;
-import io.github.mattthomson.depijp.PijpException;
+import io.github.mattthomson.depijp.DePijpException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -13,14 +13,14 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class InMemoryPijpSinkTest {
+public class InMemoryDePijpSinkTest {
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
     @Test
     public void shouldBeAbleToSinkIntoTap() throws Exception {
         List<String> values = ImmutableList.of("one", "two", "three");
-        InMemoryPijpSink<String> sink = new InMemoryPijpSink<>();
+        InMemoryDePijpSink<String> sink = new InMemoryDePijpSink<>();
 
         Tap tap = sink.createSinkTap();
         TupleEntryCollector collector = tap.openForWrite(null);
@@ -32,19 +32,19 @@ public class InMemoryPijpSinkTest {
 
     @Test
     public void shouldNotBeAbleToSinkTwice() {
-        InMemoryPijpSink<String> sink = new InMemoryPijpSink<>();
+        InMemoryDePijpSink<String> sink = new InMemoryDePijpSink<>();
 
         sink.createSinkTap();
 
-        exception.expect(PijpException.class);
+        exception.expect(DePijpException.class);
         sink.createSinkTap();
     }
 
     @Test
     public void shouldNotBeAbleToGetValuesBeforeSinking() {
-        InMemoryPijpSink<String> sink = new InMemoryPijpSink<>();
+        InMemoryDePijpSink<String> sink = new InMemoryDePijpSink<>();
 
-        exception.expect(PijpException.class);
+        exception.expect(DePijpException.class);
         sink.getValues();
     }
 }

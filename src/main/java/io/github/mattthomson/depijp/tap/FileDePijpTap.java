@@ -3,7 +3,7 @@ package io.github.mattthomson.depijp.tap;
 import cascading.scheme.Scheme;
 import cascading.tap.Tap;
 import cascading.tap.local.FileTap;
-import io.github.mattthomson.depijp.PijpTap;
+import io.github.mattthomson.depijp.DePijpTap;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -11,10 +11,10 @@ import java.util.Properties;
 
 import static cascading.tap.SinkMode.REPLACE;
 
-public abstract class FilePijpTap<T> implements PijpTap<T> {
+public abstract class FileDePijpTap<T> implements DePijpTap<T> {
     protected final String path;
 
-    public FilePijpTap(String path) {
+    public FileDePijpTap(String path) {
         this.path = path;
     }
 

@@ -3,22 +3,22 @@ package io.github.mattthomson.depijp.tap;
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.Files;
-import io.github.mattthomson.depijp.PijpSink;
-import io.github.mattthomson.depijp.PijpSource;
+import io.github.mattthomson.depijp.DePijpSink;
+import io.github.mattthomson.depijp.DePijpSource;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import static io.github.mattthomson.depijp.tap.PijpTapTestUtil.readFromSource;
-import static io.github.mattthomson.depijp.tap.PijpTapTestUtil.writeToSink;
+import static io.github.mattthomson.depijp.tap.DePijpTapTestUtil.readFromSource;
+import static io.github.mattthomson.depijp.tap.DePijpTapTestUtil.writeToSink;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TsvPijpTapTest {
+public class TsvDePijpTapTest {
     @Test
     public void shouldReadTabSeparatedValuesFromFile() {
-        PijpSource<List<String>> tap = new TsvPijpTap("src/test/resources/values.tsv", 2);
+        DePijpSource<List<String>> tap = new TsvDePijpTap("src/test/resources/values.tsv", 2);
         assertThat(readFromSource(tap)).containsExactly(
                 ImmutableList.of("one", "1"),
                 ImmutableList.of("two", "2"),
@@ -31,7 +31,7 @@ public class TsvPijpTapTest {
         File outputFile = File.createTempFile("output", "tsv");
         outputFile.deleteOnExit();
 
-        PijpSink<List<String>> tap = new TsvPijpTap(outputFile.getPath(), 2);
+        DePijpSink<List<String>> tap = new TsvDePijpTap(outputFile.getPath(), 2);
         writeToSink(tap,
                 ImmutableList.of("one", "1"),
                 ImmutableList.of("two", "2"),

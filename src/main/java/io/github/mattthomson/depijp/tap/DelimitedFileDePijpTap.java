@@ -15,11 +15,11 @@ import java.util.Properties;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public abstract class DelimitedFilePijpTap extends FilePijpTap<List<String>> {
+public abstract class DelimitedFileDePijpTap extends FileDePijpTap<List<String>> {
     protected final List<Fields> fields;
     private final String delimiter;
 
-    public DelimitedFilePijpTap(String path, int numFields, String delimiter) {
+    public DelimitedFileDePijpTap(String path, int numFields, String delimiter) {
         super(path);
 
         this.delimiter = delimiter;

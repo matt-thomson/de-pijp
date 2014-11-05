@@ -6,13 +6,13 @@ import cascading.operation.Function;
 import cascading.operation.FunctionCall;
 import cascading.tuple.Fields;
 import cascading.tuple.TupleEntry;
-import io.github.mattthomson.depijp.PijpSink;
+import io.github.mattthomson.depijp.DePijpSink;
 
 public class ToTupleEntryFunction<T> extends BaseOperation<Void> implements Function<Void> {
-    private final PijpSink<T> sink;
+    private final DePijpSink<T> sink;
     private final Fields inputField;
 
-    public ToTupleEntryFunction(PijpSink<T> sink, Fields inputField) {
+    public ToTupleEntryFunction(DePijpSink<T> sink, Fields inputField) {
         super(sink.getOutputFields());
 
         this.sink = sink;

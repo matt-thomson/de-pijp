@@ -17,7 +17,7 @@ public class Pijp<T> {
         this.field = field;
     }
 
-    public void write(PijpSink<T> sink) {
+    public void write(DePijpSink<T> sink) {
         Pipe transformed = new Each(pipe, new ToTupleEntryFunction<>(sink, field));
         flowDef.addTailSink(transformed, sink.createSinkTap());
     }

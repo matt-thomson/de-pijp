@@ -5,7 +5,7 @@ import cascading.operation.Function;
 import cascading.tuple.Fields;
 import cascading.tuple.Tuple;
 import cascading.tuple.TupleEntry;
-import io.github.mattthomson.depijp.PijpSink;
+import io.github.mattthomson.depijp.DePijpSink;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,7 +18,7 @@ public class ToTupleEntryFunctionTest {
         Fields inputField = new Fields("inputField");
         Fields outputField = new Fields("outputField");
 
-        PijpSink<String> sink = mock(PijpSink.class);
+        DePijpSink<String> sink = mock(DePijpSink.class);
         when(sink.getOutputFields()).thenReturn(new Fields("outputField"));
 
         Function<Void> function = new ToTupleEntryFunction<>(sink, inputField);

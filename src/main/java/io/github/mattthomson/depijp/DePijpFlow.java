@@ -1,5 +1,5 @@
 package io.github.mattthomson.depijp;
 
-public interface PijpFlow {
+public interface DePijpFlow {
     void flow(PijpBuilder pijpBuilder, String[] args);
 }
