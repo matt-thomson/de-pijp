@@ -4,18 +4,18 @@ import cascading.tap.Tap;
 import cascading.tuple.Fields;
 import cascading.tuple.TupleEntry;
 import com.google.common.collect.ImmutableList;
-import io.github.mattthomson.depijp.PijpSource;
+import io.github.mattthomson.depijp.DePijpSource;
 import io.github.mattthomson.depijp.cascading.InMemorySourceTap;
 
 import java.util.List;
 import java.util.UUID;
 
-public class InMemoryPijpSource<T> implements PijpSource<T> {
+public class InMemoryDePijpSource<T> implements DePijpSource<T> {
     private final List<T> values;
     private final Fields field = new Fields(UUID.randomUUID().toString());
 
     @SafeVarargs
-    public InMemoryPijpSource(T... values) {
+    public InMemoryDePijpSource(T... values) {
         this.values = ImmutableList.copyOf(values);
     }
 

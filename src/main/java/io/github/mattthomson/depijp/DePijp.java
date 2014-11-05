@@ -19,7 +19,7 @@ public class DePijp extends Configured implements Tool {
     public int run(String[] args) throws Exception {
         try {
             String flowClassName = args[0];
-            PijpFlow flow = (PijpFlow) Class.forName(flowClassName).newInstance();
+            DePijpFlow flow = (DePijpFlow) Class.forName(flowClassName).newInstance();
 
             PijpBuilder builder = new PijpBuilder();
             flow.flow(builder, args);

@@ -5,7 +5,7 @@ import cascading.operation.Function;
 import cascading.tuple.Fields;
 import cascading.tuple.Tuple;
 import cascading.tuple.TupleEntry;
-import io.github.mattthomson.depijp.PijpSource;
+import io.github.mattthomson.depijp.DePijpSource;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,7 +15,7 @@ import static org.mockito.Mockito.when;
 public class FromTupleEntryFunctionTest {
     @Test
     public void shouldExtractValueFromTupleEntry() {
-        PijpSource<String> source = mock(PijpSource.class);
+        DePijpSource<String> source = mock(DePijpSource.class);
         Fields field = new Fields("field");
         Function<Void> function = new FromTupleEntryFunction<>(source, field);
 

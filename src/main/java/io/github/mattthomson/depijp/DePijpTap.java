@@ -2,7 +2,7 @@ package io.github.mattthomson.depijp;
 
 import cascading.tap.Tap;
 
-public interface PijpTap<T> extends PijpSource<T>, PijpSink<T> {
+public interface DePijpTap<T> extends DePijpSource<T>, DePijpSink<T> {
     Tap createTap();
 
     @Override

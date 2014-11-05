@@ -7,12 +7,12 @@ import cascading.operation.FunctionCall;
 import cascading.tuple.Fields;
 import cascading.tuple.Tuple;
 import cascading.tuple.TupleEntry;
-import io.github.mattthomson.depijp.PijpSource;
+import io.github.mattthomson.depijp.DePijpSource;
 
 public class FromTupleEntryFunction<T> extends BaseOperation<Void> implements Function<Void> {
-    private final PijpSource<T> source;
+    private final DePijpSource<T> source;
 
-    public FromTupleEntryFunction(PijpSource<T> source, Fields field) {
+    public FromTupleEntryFunction(DePijpSource<T> source, Fields field) {
         super(field);
 
         this.source = source;

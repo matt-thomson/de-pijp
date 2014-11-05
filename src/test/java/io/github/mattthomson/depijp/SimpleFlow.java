@@ -1,12 +1,12 @@
 package io.github.mattthomson.depijp;
 
-import io.github.mattthomson.depijp.tap.TextLinePijpTap;
+import io.github.mattthomson.depijp.tap.TextLineDePijpTap;
 
-public class SimpleFlow implements PijpFlow {
+public class SimpleFlow implements DePijpFlow {
     @Override
     public void flow(PijpBuilder pijpBuilder, String[] args) {
         pijpBuilder
-                .read(new TextLinePijpTap("src/test/resources/values.txt"))
-                .write(new TextLinePijpTap(args[1]));
+                .read(new TextLineDePijpTap("src/test/resources/values.txt"))
+                .write(new TextLineDePijpTap(args[1]));
     }
 }

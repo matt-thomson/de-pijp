@@ -13,7 +13,7 @@ import java.util.UUID;
 public class PijpBuilder {
     private final FlowDef flowDef = new FlowDef();
 
-    public <T> Pijp<T> read(PijpSource<T> source) {
+    public <T> Pijp<T> read(DePijpSource<T> source) {
         Pipe pipe = new Pipe(UUID.randomUUID().toString());
         Fields field = new Fields(UUID.randomUUID().toString());
 

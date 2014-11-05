@@ -2,7 +2,7 @@ package io.github.mattthomson.depijp.source;
 
 import cascading.tap.Tap;
 import cascading.tuple.TupleEntryIterator;
-import io.github.mattthomson.depijp.PijpSource;
+import io.github.mattthomson.depijp.DePijpSource;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -10,10 +10,10 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class InMemoryPijpSourceTest {
+public class InMemoryDePijpSourceTest {
     @Test
     public void shouldBeAbleToReadFromSource() throws Exception {
-        PijpSource<String> source = new InMemoryPijpSource<>("one", "two", "three");
+        DePijpSource<String> source = new InMemoryDePijpSource<>("one", "two", "three");
 
         Tap tap = source.createSourceTap();
         TupleEntryIterator iterator = tap.openForRead(null);
