@@ -21,7 +21,7 @@ public class DePijp extends Configured implements Tool {
             String flowClassName = args[0];
             DePijpFlow flow = (DePijpFlow) Class.forName(flowClassName).newInstance();
 
-            PijpBuilder builder = new PijpBuilder();
+            PijpBuilder builder = PijpBuilder.local();
             flow.flow(builder, args);
 
             builder.run();

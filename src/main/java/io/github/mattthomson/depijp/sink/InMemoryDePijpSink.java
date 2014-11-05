@@ -16,13 +16,18 @@ public class InMemoryDePijpSink<T> implements DePijpSink<T> {
     private InMemorySinkTap<T> tap;
 
     @Override
-    public Tap createSinkTap() {
+    public Tap createLocalSinkTap() {
         if (tap != null) {
             throw new DePijpException("Can't write to the same sink twice");
         }
 
         tap = new InMemorySinkTap<>(field);
         return tap;
+    }
+
+    @Override
+    public Tap createHadoopSinkTap() {
+        throw new DePijpException("In-memory sinks are not available in Hadoop mode");
     }
 
     @Override

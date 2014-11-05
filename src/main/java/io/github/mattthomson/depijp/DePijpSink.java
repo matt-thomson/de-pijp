@@ -5,7 +5,9 @@ import cascading.tuple.Fields;
 import cascading.tuple.Tuple;
 
 public interface DePijpSink<T> {
-    Tap createSinkTap();
+    Tap createLocalSinkTap();
+
+    Tap createHadoopSinkTap();
 
     Tuple toTuple(T value);
 

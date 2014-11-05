@@ -12,7 +12,7 @@ public class PijpBuilderTest {
         DePijpSource<Integer> source = new InMemoryDePijpSource<>(1, 2, 3);
         InMemoryDePijpSink<Integer> sink = new InMemoryDePijpSink<>();
 
-        PijpBuilder pijpBuilder = new PijpBuilder();
+        PijpBuilder pijpBuilder = PijpBuilder.local();
         pijpBuilder.read(source).write(sink);
         pijpBuilder.run();
 
