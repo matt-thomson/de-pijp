@@ -36,7 +36,7 @@ public class DePijpTest {
         outputFile.deleteOnExit();
 
         exit.expectSystemExitWithStatus(1);
-        
+
         DePijp.main(new String[]{InvalidFlow.class.getName(), outputFile.getPath()});
     }
 
