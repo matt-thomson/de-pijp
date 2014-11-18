@@ -27,7 +27,7 @@ public class DePijpTest {
             assertThat(result).containsExactly("one", "two", "three");
         });
 
-        DePijp.main(new String[]{SimpleFlow.class.getName(), outputFile.getPath()});
+        DePijp.main(new String[]{SimpleFlow.class.getName(), "--local", outputFile.getPath()});
     }
 
     @Test
@@ -37,7 +37,7 @@ public class DePijpTest {
 
         exit.expectSystemExitWithStatus(1);
 
-        DePijp.main(new String[]{InvalidFlow.class.getName(), outputFile.getPath()});
+        DePijp.main(new String[]{InvalidFlow.class.getName(), "--local", outputFile.getPath()});
     }
 
     public static class SimpleFlow implements DePijpFlow {
@@ -45,7 +45,7 @@ public class DePijpTest {
         public void flow(PijpBuilder pijpBuilder, String[] args) {
             pijpBuilder
                     .read(new TextLineDePijpTap("src/test/resources/values.txt"))
-                    .write(new TextLineDePijpTap(args[1]));
+                    .write(new TextLineDePijpTap(args[0]));
         }
     }
 
