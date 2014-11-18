@@ -22,10 +22,12 @@ public class DePijpTest {
         outputFile.deleteOnExit();
 
         exit.expectSystemExitWithStatus(0);
-        DePijp.main(new String[]{SimpleFlow.class.getName(), outputFile.getPath()});
+        exit.checkAssertionAfterwards(() -> {
+            List<String> result = Files.readLines(outputFile, Charsets.UTF_8);
+            assertThat(result).containsExactly("one", "two", "three");
+        });
 
-        List<String> result = Files.readLines(outputFile, Charsets.UTF_8);
-        assertThat(result).containsExactly("one", "two", "three");
+        DePijp.main(new String[]{SimpleFlow.class.getName(), outputFile.getPath()});
     }
 
     @Test
@@ -34,6 +36,7 @@ public class DePijpTest {
         outputFile.deleteOnExit();
 
         exit.expectSystemExitWithStatus(1);
+        
         DePijp.main(new String[]{InvalidFlow.class.getName(), outputFile.getPath()});
     }
 
