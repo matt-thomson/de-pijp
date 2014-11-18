@@ -2,6 +2,7 @@ package io.github.mattthomson.depijp;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
+import io.github.mattthomson.depijp.tap.TextLineDePijpTap;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
@@ -34,5 +35,22 @@ public class DePijpTest {
 
         exit.expectSystemExitWithStatus(1);
         DePijp.main(new String[]{InvalidFlow.class.getName(), outputFile.getPath()});
+    }
+
+    public static class SimpleFlow implements DePijpFlow {
+        @Override
+        public void flow(PijpBuilder pijpBuilder, String[] args) {
+            pijpBuilder
+                    .read(new TextLineDePijpTap("src/test/resources/values.txt"))
+                    .write(new TextLineDePijpTap(args[1]));
+        }
+    }
+
+    public static class InvalidFlow implements DePijpFlow {
+        @Override
+        public void flow(PijpBuilder pijpBuilder, String[] args) {
+            pijpBuilder
+                    .read(new TextLineDePijpTap("src/test/resources/values.txt"));
+        }
     }
 }
