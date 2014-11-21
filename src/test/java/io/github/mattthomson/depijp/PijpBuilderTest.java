@@ -1,5 +1,7 @@
 package io.github.mattthomson.depijp;
 
+import java.util.stream.Stream;
+
 import io.github.mattthomson.depijp.sink.InMemoryDePijpSink;
 import io.github.mattthomson.depijp.source.InMemoryDePijpSource;
 import org.junit.Test;
@@ -29,5 +31,17 @@ public class PijpBuilderTest {
         pijpBuilder.run();
 
         assertThat(sink.getValues()).containsExactly("1", "2", "3");
+    }
+
+    @Test
+    public void shouldApplyFlatMap() {
+        DePijpSource<Integer> source = new InMemoryDePijpSource<>(1, 2, 3);
+        InMemoryDePijpSink<Integer> sink = new InMemoryDePijpSink<>();
+
+        PijpBuilder pijpBuilder = PijpBuilder.local();
+        pijpBuilder.read(source).flatMap(i -> Stream.of(i, i * 2)).write(sink);
+        pijpBuilder.run();
+
+        assertThat(sink.getValues()).containsExactly(1, 2, 2, 4, 3, 6);
     }
 }
