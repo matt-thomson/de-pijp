@@ -1,14 +1,14 @@
 package io.github.mattthomson.depijp.cascading;
 
-import java.util.List;
-
 import cascading.operation.Buffer;
 import cascading.operation.ConcreteCall;
 import cascading.tuple.Fields;
 import cascading.tuple.Tuple;
 import cascading.tuple.TupleEntry;
-import com.google.common.collect.Lists;
+import com.google.common.collect.ImmutableList;
 import org.junit.Test;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -19,7 +19,7 @@ public class ReduceOperationTest {
         Buffer<Void> buffer = new ReduceOperation<String, Integer>("", (x, y) -> x + String.valueOf(y), field);
 
         ListTupleEntryCollector<String> collector = new ListTupleEntryCollector<>(field);
-        List<TupleEntry> arguments = Lists.newArrayList(
+        List<TupleEntry> arguments = ImmutableList.of(
                 new TupleEntry(field, new Tuple(1)),
                 new TupleEntry(field, new Tuple(2)),
                 new TupleEntry(field, new Tuple(3))
