@@ -4,7 +4,6 @@ import cascading.flow.FlowProcess;
 import cascading.operation.BaseOperation;
 import cascading.operation.Filter;
 import cascading.operation.FilterCall;
-import cascading.operation.Function;
 import cascading.tuple.Fields;
 import io.github.mattthomson.depijp.function.SerializablePredicate;
 
