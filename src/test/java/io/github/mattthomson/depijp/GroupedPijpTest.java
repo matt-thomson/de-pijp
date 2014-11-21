@@ -22,4 +22,19 @@ public class GroupedPijpTest {
                 new KeyValue<>(1, 3)
         );
     }
+
+    @Test
+    public void shouldReduce() {
+        DePijpSource<Integer> source = new InMemoryDePijpSource<>(1, 2, 3);
+        InMemoryDePijpSink<KeyValue<Integer, Integer>> sink = new InMemoryDePijpSink<>();
+
+        PijpBuilder pijpBuilder = PijpBuilder.local();
+        pijpBuilder.read(source).groupBy(x -> x % 2).reduce(0, (x, y) -> x + y).write(sink);
+        pijpBuilder.run();
+
+        assertThat(sink.getValues()).containsExactly(
+                new KeyValue<>(0, 2),
+                new KeyValue<>(1, 4)
+        );
+    }
 }

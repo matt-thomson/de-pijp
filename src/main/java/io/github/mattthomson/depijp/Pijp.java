@@ -50,7 +50,7 @@ public class Pijp<T> {
     public <K> GroupedPijp<K, T> groupBy(SerializableFunction<T, K> classifier) {
         Fields keyField = new Fields(UUID.randomUUID().toString());
         Pipe withKeys = new Each(pipe, field, new MapOperation<>(classifier, field, keyField), ALL);
-        GroupBy grouped = new GroupBy(withKeys, keyField);
+        Pipe grouped = new GroupBy(withKeys, keyField);
 
         return new GroupedPijp<>(flowDef, mode, grouped, keyField, field);
     }
