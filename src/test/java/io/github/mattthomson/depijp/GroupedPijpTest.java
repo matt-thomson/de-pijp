@@ -37,4 +37,19 @@ public class GroupedPijpTest {
                 new KeyValue<>(1, 4)
         );
     }
+
+    @Test
+    public void shouldCount() {
+        DePijpSource<String> source = new InMemoryDePijpSource<>("a", "b", "a", "a");
+        InMemoryDePijpSink<KeyValue<String, Integer>> sink = new InMemoryDePijpSink<>();
+
+        PijpBuilder pijpBuilder = PijpBuilder.local();
+        pijpBuilder.read(source).groupBy(x -> x).count().write(sink);
+        pijpBuilder.run();
+
+        assertThat(sink.getValues()).containsExactly(
+                new KeyValue<>("a", 3),
+                new KeyValue<>("b", 1)
+        );
+    }
 }
