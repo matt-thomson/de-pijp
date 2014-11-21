@@ -1,8 +1,10 @@
 package io.github.mattthomson.depijp;
 
+import java.io.Serializable;
+
 import cascading.tap.Tap;
 
-public interface DePijpTap<T> extends DePijpSource<T>, DePijpSink<T> {
+public interface DePijpTap<T> extends DePijpSource<T>, DePijpSink<T>, Serializable {
     Tap createLocalTap();
 
     Tap createHadoopTap();
