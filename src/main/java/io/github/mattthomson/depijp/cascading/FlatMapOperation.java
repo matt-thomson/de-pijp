@@ -16,7 +16,7 @@ public class FlatMapOperation<T, R> extends BaseOperation<Void> implements Funct
     private final Fields field;
 
     public FlatMapOperation(SerializableFunction<? super T, ? extends Stream<? extends R>> mapper, Fields field) {
-        super(field);
+        super(1, field);
 
         this.mapper = mapper;
         this.field = field;

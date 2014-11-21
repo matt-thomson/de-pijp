@@ -13,6 +13,8 @@ public class FilterOperation<T> extends BaseOperation<Void> implements Filter<Vo
     private final Fields field;
 
     public FilterOperation(SerializablePredicate<T> predicate, Fields field) {
+        super(1);
+
         this.predicate = predicate;
         this.field = field;
     }

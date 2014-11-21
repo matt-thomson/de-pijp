@@ -13,7 +13,7 @@ public class ToTupleEntryFunction<T> extends BaseOperation<Void> implements Func
     private final Fields inputField;
 
     public ToTupleEntryFunction(DePijpSink<T> sink, Fields inputField) {
-        super(sink.getOutputFields());
+        super(1, sink.getOutputFields());
 
         this.sink = sink;
         this.inputField = inputField;

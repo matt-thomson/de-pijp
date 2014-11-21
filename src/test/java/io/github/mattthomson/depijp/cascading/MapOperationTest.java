@@ -22,4 +22,19 @@ public class MapOperationTest {
 
         assertThat(collector.getValues()).containsExactly("1");
     }
+
+    @Test
+    public void shouldApplyMapWithOutputField() {
+        Fields inputField = new Fields("inputField");
+        Fields outputField = new Fields("outputField");
+
+        Function<Void> function = new MapOperation<>(String::valueOf, inputField, outputField);
+
+        TupleEntry argument = new TupleEntry(inputField, new Tuple(1));
+        ListTupleEntryCollector<String> collector = new ListTupleEntryCollector<>(outputField);
+
+        function.operate(null, new ConcreteCall<>(argument, collector));
+
+        assertThat(collector.getValues()).containsExactly("1");
+    }
 }
