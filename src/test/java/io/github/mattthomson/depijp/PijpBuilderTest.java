@@ -44,4 +44,16 @@ public class PijpBuilderTest {
 
         assertThat(sink.getValues()).containsExactly(1, 2, 2, 4, 3, 6);
     }
+
+    @Test
+    public void shouldApplyFilter() {
+        DePijpSource<Integer> source = new InMemoryDePijpSource<>(1, 2, 3);
+        InMemoryDePijpSink<Integer> sink = new InMemoryDePijpSink<>();
+
+        PijpBuilder pijpBuilder = PijpBuilder.local();
+        pijpBuilder.read(source).filter(i -> i % 2 == 1).write(sink);
+        pijpBuilder.run();
+
+        assertThat(sink.getValues()).containsExactly(1, 3);
+    }
 }

@@ -9,11 +9,11 @@ import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class MapFunctionTest {
+public class MapOperationTest {
     @Test
     public void shouldApplyMap() {
         Fields field = new Fields("field");
-        Function<Void> function = new MapFunction<>(String::valueOf, field);
+        Function<Void> function = new MapOperation<>(String::valueOf, field);
 
         TupleEntry argument = new TupleEntry(field, new Tuple(1));
         ListTupleEntryCollector<String> collector = new ListTupleEntryCollector<>(field);
