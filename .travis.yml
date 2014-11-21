@@ -1,4 +1,9 @@
 language: java
 jdk:
-  - oraclejdk8
-
+- oraclejdk8
+env:
+  global:
+  - secure: R6nJliulEWltBCLmcoC5dKKVUO/ihNjQnKmD62r2I5u9eVQ0jZeU9eGxackrjMGwoy/l6ruhrvc9hLQ1661yCV2AT2I+0w98w1LzRAx0eGlwmSDyAQoA6v3ZUChdmY8OgLYHbzXnaZrJcAr3/5clrsTJhu+lQO6gShOQ9b85VtQ=
+  - secure: bdn26KqbnIrvruUq8CsskPnyd2jbFZWrTdUoaBrRuf69EDd11f4ViMRpCl5vQUpmyHeXNC3rP/eYPhTpPmqkuplnkbkVpqRtUw2iajWmiz7QUIWkZFtoAPnYB4UOXWOqKIuuLBDWEHif289KCqImXwTBi3BJlsyOsxh2fHwOAIU=
+after_success:
+- test $TRAVIS_BRANCH == "master" || test $TRAVIS_BRANCH == "develop" && mvn deploy --settings settings.xml
