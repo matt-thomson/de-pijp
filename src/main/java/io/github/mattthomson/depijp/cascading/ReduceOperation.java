@@ -11,7 +11,7 @@ import cascading.tuple.Tuple;
 import cascading.tuple.TupleEntry;
 import io.github.mattthomson.depijp.function.SerializableBiFunction;
 
-public class ReduceOperation<V, T> extends BaseOperation<Void> implements Buffer<Void> {
+public class ReduceOperation<T, V> extends BaseOperation<Void> implements Buffer<Void> {
     private final T initialValue;
     private final SerializableBiFunction<T, V, T> op;
     private final Fields valueField;
