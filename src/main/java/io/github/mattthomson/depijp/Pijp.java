@@ -25,7 +25,7 @@ public class Pijp<T> {
         this.field = field;
     }
 
-    public <S> Pijp<S> map(Function<T, S> function) {
+    public <S> Pijp<S> map(Function<? super T, ? super S> function) {
         Pipe transformed = new Each(pipe, new MapFunction<>(function, field), REPLACE);
         return new Pijp<>(flowDef, mode, transformed, field);
     }
