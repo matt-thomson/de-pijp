@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class GroupedPijpTest {
     @Test
-    public void shouldGroup() {
+    public void shouldGroupByFunction() {
         DePijpSource<Integer> source = new InMemoryDePijpSource<>(1, 2, 3);
         InMemoryDePijpSink<KeyValue<Integer, Integer>> sink = new InMemoryDePijpSink<>();
 
@@ -39,12 +39,12 @@ public class GroupedPijpTest {
     }
 
     @Test
-    public void shouldCount() {
+    public void shouldGroupAndCount() {
         DePijpSource<String> source = new InMemoryDePijpSource<>("a", "b", "a", "a");
         InMemoryDePijpSink<KeyValue<String, Integer>> sink = new InMemoryDePijpSink<>();
 
         PijpBuilder pijpBuilder = PijpBuilder.local();
-        pijpBuilder.read(source).groupBy(x -> x).count().write(sink);
+        pijpBuilder.read(source).group().count().write(sink);
         pijpBuilder.run();
 
         assertThat(sink.getValues()).containsExactly(

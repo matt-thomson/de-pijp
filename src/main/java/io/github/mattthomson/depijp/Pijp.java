@@ -1,8 +1,5 @@
 package io.github.mattthomson.depijp;
 
-import java.util.UUID;
-import java.util.stream.Stream;
-
 import cascading.flow.FlowDef;
 import cascading.pipe.Each;
 import cascading.pipe.GroupBy;
@@ -15,6 +12,9 @@ import io.github.mattthomson.depijp.cascading.ToTupleEntryFunction;
 import io.github.mattthomson.depijp.function.SerializableFunction;
 import io.github.mattthomson.depijp.function.SerializablePredicate;
 import io.github.mattthomson.depijp.mode.DePijpMode;
+
+import java.util.UUID;
+import java.util.stream.Stream;
 
 import static cascading.tuple.Fields.ALL;
 import static cascading.tuple.Fields.REPLACE;
@@ -45,6 +45,10 @@ public class Pijp<T> {
     public Pijp<T> filter(SerializablePredicate<T> predicate) {
         Pipe transformed = new Each(pipe, field, new FilterOperation<>(predicate, field));
         return new Pijp<>(flowDef, mode, transformed, field);
+    }
+
+    public GroupedPijp<T, T> group() {
+        return groupBy(x -> x);
     }
 
     public <K> GroupedPijp<K, T> groupBy(SerializableFunction<T, K> classifier) {
