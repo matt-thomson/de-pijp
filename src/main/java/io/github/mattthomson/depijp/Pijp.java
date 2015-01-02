@@ -61,6 +61,10 @@ public class Pijp<T> {
         return this.groupBy(x -> 1).joinWithTiny(other.groupBy(x -> 1)).values();
     }
 
+    public <S> Pijp<Pair<T, S>> cross(Pijp<S> other) {
+        return this.groupBy(x -> 1).join(other.groupBy(x -> 1)).values();
+    }
+
     public void write(DePijpSink<T> sink) {
         Pipe transformed = new Each(pipe, field, new ToTupleEntryFunction<>(sink, field));
         flowDef.addTailSink(transformed, mode.createSinkTap(sink));

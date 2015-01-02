@@ -66,4 +66,26 @@ public class PijpTest {
                 new Pair<>(3, "b")
         );
     }
+
+    @Test
+    public void shouldCross() {
+        DePijpSource<Integer> source1 = new InMemoryDePijpSource<>(1, 2, 3);
+        DePijpSource<String> source2 = new InMemoryDePijpSource<>("a", "b");
+        InMemoryDePijpSink<Pair<Integer, String>> sink = new InMemoryDePijpSink<>();
+
+        PijpBuilder pijpBuilder = PijpBuilder.local();
+        pijpBuilder.read(source1)
+                .cross(pijpBuilder.read(source2))
+                .write(sink);
+        pijpBuilder.run();
+
+        assertThat(sink.getValues()).containsExactly(
+                new Pair<>(1, "a"),
+                new Pair<>(1, "b"),
+                new Pair<>(2, "a"),
+                new Pair<>(2, "b"),
+                new Pair<>(3, "a"),
+                new Pair<>(3, "b")
+        );
+    }
 }
