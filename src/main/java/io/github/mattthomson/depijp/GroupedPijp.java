@@ -49,11 +49,11 @@ public class GroupedPijp<K, V> {
         return new Pijp<>(flowDef, mode, values, valueField);
     }
 
-    public <W> GroupedPijp<K, Pair<V, W>> hashJoin(GroupedPijp<K, W> other) {
+    public <W> GroupedPijp<K, Pair<V, W>> joinWithTiny(GroupedPijp<K, W> other) {
         return hashJoin(other, new InnerJoin());
     }
 
-    public <W> GroupedPijp<K, Pair<V, W>> leftHashJoin(GroupedPijp<K, W> other) {
+    public <W> GroupedPijp<K, Pair<V, W>> leftJoinWithTiny(GroupedPijp<K, W> other) {
         return hashJoin(other, new LeftJoin());
     }
 

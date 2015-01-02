@@ -1,10 +1,10 @@
 package io.github.mattthomson.depijp;
 
-import java.util.stream.Stream;
-
 import io.github.mattthomson.depijp.sink.InMemoryDePijpSink;
 import io.github.mattthomson.depijp.source.InMemoryDePijpSource;
 import org.junit.Test;
+
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -43,5 +43,27 @@ public class PijpTest {
         pijpBuilder.run();
 
         assertThat(sink.getValues()).containsExactly(1, 3);
+    }
+
+    @Test
+    public void shouldCrossWithTiny() {
+        DePijpSource<Integer> source1 = new InMemoryDePijpSource<>(1, 2, 3);
+        DePijpSource<String> source2 = new InMemoryDePijpSource<>("a", "b");
+        InMemoryDePijpSink<Pair<Integer, String>> sink = new InMemoryDePijpSink<>();
+
+        PijpBuilder pijpBuilder = PijpBuilder.local();
+        pijpBuilder.read(source1)
+                .crossWithTiny(pijpBuilder.read(source2))
+                .write(sink);
+        pijpBuilder.run();
+
+        assertThat(sink.getValues()).containsExactly(
+                new Pair<>(1, "a"),
+                new Pair<>(1, "b"),
+                new Pair<>(2, "a"),
+                new Pair<>(2, "b"),
+                new Pair<>(3, "a"),
+                new Pair<>(3, "b")
+        );
     }
 }
