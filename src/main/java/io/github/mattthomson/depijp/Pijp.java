@@ -3,6 +3,7 @@ package io.github.mattthomson.depijp;
 import cascading.flow.FlowDef;
 import cascading.pipe.Each;
 import cascading.pipe.Pipe;
+import cascading.pipe.assembly.Unique;
 import cascading.tuple.Fields;
 import io.github.mattthomson.depijp.cascading.FilterOperation;
 import io.github.mattthomson.depijp.cascading.FlatMapOperation;
@@ -63,6 +64,10 @@ public class Pijp<T> {
 
     public <S> Pijp<Pair<T, S>> cross(Pijp<S> other) {
         return this.groupBy(x -> 1).join(other.groupBy(x -> 1)).values();
+    }
+
+    public Pijp<T> unique() {
+        return new Pijp<>(flowDef, mode, new Unique(pipe, field), field);
     }
 
     public void write(DePijpSink<T> sink) {

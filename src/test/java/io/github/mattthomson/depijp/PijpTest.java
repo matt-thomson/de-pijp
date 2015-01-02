@@ -88,4 +88,16 @@ public class PijpTest {
                 new Pair<>(3, "b")
         );
     }
+
+    @Test
+    public void shouldFindUniques() {
+        DePijpSource<Integer> source = new InMemoryDePijpSource<>(1, 2, 2, 1, 2, 3);
+        InMemoryDePijpSink<Integer> sink = new InMemoryDePijpSink<>();
+
+        PijpBuilder pijpBuilder = PijpBuilder.local();
+        pijpBuilder.read(source).unique().write(sink);
+        pijpBuilder.run();
+
+        assertThat(sink.getValues()).containsExactly(1, 2, 3);
+    }
 }
