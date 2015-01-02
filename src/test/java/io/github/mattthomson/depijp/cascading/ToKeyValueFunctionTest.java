@@ -16,7 +16,7 @@ public class ToKeyValueFunctionTest {
         Fields keyField = new Fields("keyField");
         Fields valueField = new Fields("valueField");
         Fields outputField = new Fields("outputField");
-        Function<Void> function = new ToKeyValueFunction(keyField, valueField, outputField);
+        Function<Void> function = new ToKeyValueFunction<Integer, String>(keyField, valueField, outputField);
 
         TupleEntry argument = new TupleEntry(keyField.append(valueField), new Tuple(1, "foo"));
         ListTupleEntryCollector<KeyValue<Integer, String>> collector = new ListTupleEntryCollector<>(outputField);
