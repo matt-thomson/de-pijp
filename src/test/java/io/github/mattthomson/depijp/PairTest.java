@@ -16,4 +16,18 @@ public class PairTest {
         Pair<Integer, Boolean> pair = new Pair<>(123, true);
         assertThat(pair.toStringList()).containsExactly("123", "true");
     }
+
+    @Test
+    public void shouldMapFirst() {
+        Pair<Integer, Boolean> pair = new Pair<>(123, true);
+        Pair<String, Boolean> mapped = pair.mapFirst(x -> Integer.toString(x));
+        assertThat(mapped).isEqualTo(new Pair<>("123", true));
+    }
+
+    @Test
+    public void shouldMapSecond() {
+        Pair<Integer, Boolean> pair = new Pair<>(123, true);
+        Pair<Integer, String> mapped = pair.mapSecond(x -> Boolean.toString(x));
+        assertThat(mapped).isEqualTo(new Pair<>(123, "true"));
+    }
 }

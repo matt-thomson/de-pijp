@@ -6,6 +6,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import java.util.List;
+import java.util.function.Function;
 
 public class Pair<S, T> {
     private final S first;
@@ -23,6 +24,15 @@ public class Pair<S, T> {
     public T getSecond() {
         return second;
     }
+
+    public <U> Pair<U, T> mapFirst(Function<S, U> fn) {
+        return new Pair<>(fn.apply(first), second);
+    }
+
+    public <U> Pair<S, U> mapSecond(Function<T, U> fn) {
+        return new Pair<>(first, fn.apply(second));
+    }
+
     public List<String> toStringList() {
         return ImmutableList.of(first.toString(), second.toString());
     }
@@ -41,5 +51,4 @@ public class Pair<S, T> {
     public final String toString() {
         return ToStringBuilder.reflectionToString(this);
     }
-
 }
