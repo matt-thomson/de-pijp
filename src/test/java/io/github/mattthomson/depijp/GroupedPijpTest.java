@@ -54,7 +54,7 @@ public class GroupedPijpTest {
     }
 
     @Test
-    public void shouldHashJoin() {
+    public void shouldJoinWithTiny() {
         DePijpSource<String> source1 = new InMemoryDePijpSource<>("0", "1", "2");
         DePijpSource<Integer> source2 = new InMemoryDePijpSource<>(1, 2, 3);
         InMemoryDePijpSink<Pair<String, Integer>> sink = new InMemoryDePijpSink<>();
@@ -62,7 +62,7 @@ public class GroupedPijpTest {
         PijpBuilder pijpBuilder = PijpBuilder.local();
         GroupedPijp<Integer, String> group1 = pijpBuilder.read(source1).groupBy(Integer::parseInt);
         GroupedPijp<Integer, Integer> group2 = pijpBuilder.read(source2).groupBy(x -> x % 2);
-        group1.hashJoin(group2).values().write(sink);
+        group1.joinWithTiny(group2).values().write(sink);
         pijpBuilder.run();
 
         assertThat(sink.getValues()).containsExactly(
@@ -73,7 +73,7 @@ public class GroupedPijpTest {
     }
 
     @Test
-    public void shouldLeftHashJoin() {
+    public void shouldLeftJoinWithTiny() {
         DePijpSource<String> source1 = new InMemoryDePijpSource<>("0", "1", "2");
         DePijpSource<Integer> source2 = new InMemoryDePijpSource<>(1, 2, 3);
         InMemoryDePijpSink<Pair<String, Integer>> sink = new InMemoryDePijpSink<>();
@@ -81,7 +81,7 @@ public class GroupedPijpTest {
         PijpBuilder pijpBuilder = PijpBuilder.local();
         GroupedPijp<Integer, String> group1 = pijpBuilder.read(source1).groupBy(Integer::parseInt);
         GroupedPijp<Integer, Integer> group2 = pijpBuilder.read(source2).groupBy(x -> x % 2);
-        group1.leftHashJoin(group2).values().write(sink);
+        group1.leftJoinWithTiny(group2).values().write(sink);
         pijpBuilder.run();
 
         assertThat(sink.getValues()).containsExactly(
