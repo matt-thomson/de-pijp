@@ -7,6 +7,8 @@ import cascading.pipe.Every;
 import cascading.pipe.HashJoin;
 import cascading.pipe.Pipe;
 import cascading.pipe.joiner.InnerJoin;
+import cascading.pipe.joiner.Joiner;
+import cascading.pipe.joiner.LeftJoin;
 import cascading.tuple.Fields;
 import io.github.mattthomson.depijp.cascading.ReduceOperation;
 import io.github.mattthomson.depijp.cascading.ToKeyValueFunction;
@@ -48,8 +50,16 @@ public class GroupedPijp<K, V> {
     }
 
     public <W> GroupedPijp<K, Pair<V, W>> hashJoin(GroupedPijp<K, W> other) {
+        return hashJoin(other, new InnerJoin());
+    }
+
+    public <W> GroupedPijp<K, Pair<V, W>> leftHashJoin(GroupedPijp<K, W> other) {
+        return hashJoin(other, new LeftJoin());
+    }
+
+    private <W> GroupedPijp<K, Pair<V, W>> hashJoin(GroupedPijp<K, W> other, Joiner joiner) {
         Fields outputField = new Fields(UUID.randomUUID().toString());
-        Pipe joined = new HashJoin(pipe, keyField, other.getPipe(), other.getKeyField(), new InnerJoin());
+        Pipe joined = new HashJoin(pipe, keyField, other.getPipe(), other.getKeyField(), joiner);
         Pipe transformed = new Each(joined, valueField.append(other.getValueField()), new ToPairFunction<>(valueField, other.getValueField(), outputField));
         return new GroupedPijp<>(flowDef, mode, transformed, keyField, outputField);
     }
