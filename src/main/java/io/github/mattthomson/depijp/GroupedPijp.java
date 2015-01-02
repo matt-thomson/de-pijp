@@ -3,9 +3,7 @@ package io.github.mattthomson.depijp;
 import cascading.flow.FlowDef;
 import cascading.operation.Identity;
 import cascading.pipe.*;
-import cascading.pipe.joiner.InnerJoin;
-import cascading.pipe.joiner.Joiner;
-import cascading.pipe.joiner.LeftJoin;
+import cascading.pipe.joiner.*;
 import cascading.tuple.Fields;
 import io.github.mattthomson.depijp.cascading.ReduceOperation;
 import io.github.mattthomson.depijp.cascading.ToKeyValueFunction;
@@ -48,23 +46,39 @@ public class GroupedPijp<K, V> {
     }
 
     public <W> GroupedPijp<K, Pair<V, W>> joinWithTiny(GroupedPijp<K, W> other) {
-        return hashJoin(other, new InnerJoin());
+        return joinWithTiny(other, new InnerJoin());
     }
 
     public <W> GroupedPijp<K, Pair<V, W>> leftJoinWithTiny(GroupedPijp<K, W> other) {
-        return hashJoin(other, new LeftJoin());
+        return joinWithTiny(other, new LeftJoin());
     }
 
-    public <W> GroupedPijp<K, Pair<V, W>> join(GroupedPijp<K, W> other) {
+    private <W> GroupedPijp<K, Pair<V, W>> joinWithTiny(GroupedPijp<K, W> other, Joiner joiner) {
         Fields outputField = new Fields(UUID.randomUUID().toString());
-        Pipe joined = new CoGroup(pipe, keyField, other.getPipe(), other.getKeyField(), new InnerJoin());
+        Pipe joined = new HashJoin(pipe, keyField, other.getPipe(), other.getKeyField(), joiner);
         Pipe transformed = new Each(joined, valueField.append(other.getValueField()), new ToPairFunction<>(valueField, other.getValueField(), outputField));
         return new GroupedPijp<>(flowDef, mode, transformed, keyField, outputField);
     }
 
-    private <W> GroupedPijp<K, Pair<V, W>> hashJoin(GroupedPijp<K, W> other, Joiner joiner) {
+    public <W> GroupedPijp<K, Pair<V, W>> join(GroupedPijp<K, W> other) {
+        return join(other, new InnerJoin());
+    }
+
+    public <W> GroupedPijp<K, Pair<V, W>> leftJoin(GroupedPijp<K, W> other) {
+        return join(other, new LeftJoin());
+    }
+
+    public <W> GroupedPijp<K, Pair<V, W>> rightJoin(GroupedPijp<K, W> other) {
+        return join(other, new RightJoin());
+    }
+
+    public <W> GroupedPijp<K, Pair<V, W>> outerJoin(GroupedPijp<K, W> other) {
+        return join(other, new OuterJoin());
+    }
+
+    private <W> GroupedPijp<K, Pair<V, W>> join(GroupedPijp<K, W> other, Joiner joiner) {
         Fields outputField = new Fields(UUID.randomUUID().toString());
-        Pipe joined = new HashJoin(pipe, keyField, other.getPipe(), other.getKeyField(), joiner);
+        Pipe joined = new CoGroup(pipe, keyField, other.getPipe(), other.getKeyField(), joiner);
         Pipe transformed = new Each(joined, valueField.append(other.getValueField()), new ToPairFunction<>(valueField, other.getValueField(), outputField));
         return new GroupedPijp<>(flowDef, mode, transformed, keyField, outputField);
     }
