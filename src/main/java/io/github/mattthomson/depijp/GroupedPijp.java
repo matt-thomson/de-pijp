@@ -55,7 +55,10 @@ public class GroupedPijp<K, V> {
 
     private <W> GroupedPijp<K, Pair<V, W>> joinWithTiny(GroupedPijp<K, W> other, Joiner joiner) {
         Fields outputField = new Fields(UUID.randomUUID().toString());
-        Pipe joined = new HashJoin(pipe, keyField, other.getPipe(), other.getKeyField(), joiner);
+        Pipe firstRenamed = new Pipe(UUID.randomUUID().toString(), pipe);
+        Pipe secondRenamed = new Pipe(UUID.randomUUID().toString(), other.getPipe());
+
+        Pipe joined = new HashJoin(firstRenamed, keyField, secondRenamed, other.getKeyField(), joiner);
         Pipe transformed = new Each(joined, valueField.append(other.getValueField()), new ToPairFunction<>(valueField, other.getValueField(), outputField));
         return new GroupedPijp<>(flowDef, mode, transformed, keyField, outputField);
     }
@@ -78,7 +81,10 @@ public class GroupedPijp<K, V> {
 
     private <W> GroupedPijp<K, Pair<V, W>> join(GroupedPijp<K, W> other, Joiner joiner) {
         Fields outputField = new Fields(UUID.randomUUID().toString());
-        Pipe joined = new CoGroup(pipe, keyField, other.getPipe(), other.getKeyField(), joiner);
+        Pipe firstRenamed = new Pipe(UUID.randomUUID().toString(), pipe);
+        Pipe secondRenamed = new Pipe(UUID.randomUUID().toString(), other.getPipe());
+
+        Pipe joined = new CoGroup(firstRenamed, keyField, secondRenamed, other.getKeyField(), joiner);
         Pipe transformed = new Each(joined, valueField.append(other.getValueField()), new ToPairFunction<>(valueField, other.getValueField(), outputField));
         return new GroupedPijp<>(flowDef, mode, transformed, keyField, outputField);
     }

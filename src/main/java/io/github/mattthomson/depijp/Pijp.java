@@ -3,6 +3,7 @@ package io.github.mattthomson.depijp;
 import cascading.flow.FlowDef;
 import cascading.pipe.Each;
 import cascading.pipe.Pipe;
+import cascading.pipe.assembly.Rename;
 import cascading.pipe.assembly.Unique;
 import cascading.tuple.Fields;
 import io.github.mattthomson.depijp.cascading.FilterOperation;
@@ -53,9 +54,11 @@ public class Pijp<T> {
 
     public <K> GroupedPijp<K, T> groupBy(SerializableFunction<T, K> classifier) {
         Fields keyField = new Fields(UUID.randomUUID().toString());
+        Fields valueField = new Fields(UUID.randomUUID().toString());
         Pipe withKeys = new Each(pipe, field, new MapOperation<>(classifier, field, keyField), ALL);
+        Pipe renamedValues = new Rename(withKeys, field, valueField);
 
-        return new GroupedPijp<>(flowDef, mode, withKeys, keyField, field);
+        return new GroupedPijp<>(flowDef, mode, renamedValues, keyField, valueField);
     }
 
     public <S> Pijp<Pair<T, S>> crossWithTiny(Pijp<S> other) {

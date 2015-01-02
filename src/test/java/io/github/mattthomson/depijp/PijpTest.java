@@ -68,6 +68,24 @@ public class PijpTest {
     }
 
     @Test
+    public void shouldCrossWithTinySelf() {
+        DePijpSource<String> source = new InMemoryDePijpSource<>("a", "b");
+        InMemoryDePijpSink<Pair<String, String>> sink = new InMemoryDePijpSink<>();
+
+        PijpBuilder pijpBuilder = PijpBuilder.local();
+        Pijp<String> pijp = pijpBuilder.read(source);
+        pijp.crossWithTiny(pijp).write(sink);
+        pijpBuilder.run();
+
+        assertThat(sink.getValues()).containsExactly(
+                new Pair<>("a", "a"),
+                new Pair<>("a", "b"),
+                new Pair<>("b", "a"),
+                new Pair<>("b", "b")
+        );
+    }
+
+    @Test
     public void shouldCross() {
         DePijpSource<Integer> source1 = new InMemoryDePijpSource<>(1, 2, 3);
         DePijpSource<String> source2 = new InMemoryDePijpSource<>("a", "b");
@@ -88,6 +106,25 @@ public class PijpTest {
                 new Pair<>(3, "b")
         );
     }
+
+    @Test
+    public void shouldCrossWithSelf() {
+        DePijpSource<String> source = new InMemoryDePijpSource<>("a", "b");
+        InMemoryDePijpSink<Pair<String, String>> sink = new InMemoryDePijpSink<>();
+
+        PijpBuilder pijpBuilder = PijpBuilder.local();
+        Pijp<String> pijp = pijpBuilder.read(source);
+        pijp.cross(pijp).write(sink);
+        pijpBuilder.run();
+
+        assertThat(sink.getValues()).containsExactly(
+                new Pair<>("a", "a"),
+                new Pair<>("a", "b"),
+                new Pair<>("b", "a"),
+                new Pair<>("b", "b")
+        );
+    }
+
 
     @Test
     public void shouldFindUniques() {
