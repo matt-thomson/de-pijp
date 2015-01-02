@@ -33,7 +33,7 @@ public class GroupedPijp<K, V> {
     }
 
     public <T> Pijp<KeyValue<K, T>> reduce(T initialValue, SerializableBiFunction<T, V, T> op) {
-        Pipe grouped = new GroupBy(pipe, keyField);
+        GroupBy grouped = new GroupBy(pipe, keyField);
         Pipe reduced = new Every(grouped, valueField, new ReduceOperation<>(initialValue, op, valueField), REPLACE);
         return toKeyValue(reduced);
     }
@@ -53,6 +53,13 @@ public class GroupedPijp<K, V> {
 
     public <W> GroupedPijp<K, Pair<V, W>> leftJoinWithTiny(GroupedPijp<K, W> other) {
         return hashJoin(other, new LeftJoin());
+    }
+
+    public <W> GroupedPijp<K, Pair<V, W>> join(GroupedPijp<K, W> other) {
+        Fields outputField = new Fields(UUID.randomUUID().toString());
+        Pipe joined = new CoGroup(pipe, keyField, other.getPipe(), other.getKeyField(), new InnerJoin());
+        Pipe transformed = new Each(joined, valueField.append(other.getValueField()), new ToPairFunction<>(valueField, other.getValueField(), outputField));
+        return new GroupedPijp<>(flowDef, mode, transformed, keyField, outputField);
     }
 
     private <W> GroupedPijp<K, Pair<V, W>> hashJoin(GroupedPijp<K, W> other, Joiner joiner) {
@@ -83,4 +90,5 @@ public class GroupedPijp<K, V> {
     Fields getValueField() {
         return valueField;
     }
+
 }
