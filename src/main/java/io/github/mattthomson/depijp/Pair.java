@@ -5,10 +5,11 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.function.Function;
 
-public class Pair<S, T> {
+public class Pair<S, T> implements Serializable {
     private final S first;
     private final T second;
 

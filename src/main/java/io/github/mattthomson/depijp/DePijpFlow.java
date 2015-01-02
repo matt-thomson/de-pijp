@@ -1,5 +1,7 @@
 package io.github.mattthomson.depijp;
 
-public interface DePijpFlow {
+import java.io.Serializable;
+
+public interface DePijpFlow extends Serializable {
     void flow(PijpBuilder pijpBuilder, String[] args);
 }
