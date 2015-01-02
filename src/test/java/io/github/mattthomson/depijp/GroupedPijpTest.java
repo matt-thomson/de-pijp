@@ -17,8 +17,8 @@ public class GroupedPijpTest {
         pijpBuilder.run();
 
         assertThat(sink.getValues()).containsExactly(
-                new KeyValue<>(0, 2),
                 new KeyValue<>(1, 1),
+                new KeyValue<>(0, 2),
                 new KeyValue<>(1, 3)
         );
     }
