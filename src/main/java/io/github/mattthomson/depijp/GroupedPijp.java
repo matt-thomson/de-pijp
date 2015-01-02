@@ -2,10 +2,7 @@ package io.github.mattthomson.depijp;
 
 import cascading.flow.FlowDef;
 import cascading.operation.Identity;
-import cascading.pipe.Each;
-import cascading.pipe.Every;
-import cascading.pipe.HashJoin;
-import cascading.pipe.Pipe;
+import cascading.pipe.*;
 import cascading.pipe.joiner.InnerJoin;
 import cascading.pipe.joiner.Joiner;
 import cascading.pipe.joiner.LeftJoin;
@@ -36,7 +33,8 @@ public class GroupedPijp<K, V> {
     }
 
     public <T> Pijp<KeyValue<K, T>> reduce(T initialValue, SerializableBiFunction<T, V, T> op) {
-        Pipe reduced = new Every(pipe, valueField, new ReduceOperation<>(initialValue, op, valueField), REPLACE);
+        Pipe grouped = new GroupBy(pipe, keyField);
+        Pipe reduced = new Every(grouped, valueField, new ReduceOperation<>(initialValue, op, valueField), REPLACE);
         return toKeyValue(reduced);
     }
 
