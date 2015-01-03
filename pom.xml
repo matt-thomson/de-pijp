@@ -37,6 +37,17 @@
             <artifactId>cascading-hadoop2-mr1</artifactId>
             <version>${cascading.version}</version>
         </dependency>
+        <dependency>
+            <groupId>cascading.kryo</groupId>
+            <artifactId>cascading.kryo</artifactId>
+            <version>0.4.7</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
         <dependency>
             <groupId>com.google.guava</groupId>
