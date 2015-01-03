@@ -41,15 +41,15 @@ public class GroupedPijpTest {
     @Test
     public void shouldGroupAndCount() {
         DePijpSource<String> source = new InMemoryDePijpSource<>("a", "b", "a", "a");
-        InMemoryDePijpSink<KeyValue<String, Integer>> sink = new InMemoryDePijpSink<>();
+        InMemoryDePijpSink<KeyValue<String, Long>> sink = new InMemoryDePijpSink<>();
 
         PijpBuilder pijpBuilder = PijpBuilder.local();
         pijpBuilder.read(source).group().count().write(sink);
         pijpBuilder.run();
 
         assertThat(sink.getValues()).containsExactly(
-                new KeyValue<>("a", 3),
-                new KeyValue<>("b", 1)
+                new KeyValue<>("a", 3L),
+                new KeyValue<>("b", 1L)
         );
     }
 

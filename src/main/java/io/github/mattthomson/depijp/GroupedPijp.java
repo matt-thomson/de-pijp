@@ -3,6 +3,7 @@ package io.github.mattthomson.depijp;
 import cascading.flow.FlowDef;
 import cascading.operation.Identity;
 import cascading.pipe.*;
+import cascading.pipe.assembly.CountBy;
 import cascading.pipe.joiner.*;
 import cascading.tuple.Fields;
 import io.github.mattthomson.depijp.cascading.ReduceOperation;
@@ -33,11 +34,13 @@ public class GroupedPijp<K, V> {
     public <T> Pijp<KeyValue<K, T>> reduce(T initialValue, SerializableBiFunction<T, V, T> op) {
         GroupBy grouped = new GroupBy(pipe, keyField);
         Pipe reduced = new Every(grouped, valueField, new ReduceOperation<>(initialValue, op, valueField), REPLACE);
-        return toKeyValue(reduced);
+        return toKeyValue(reduced, keyField, valueField);
     }
 
-    public Pijp<KeyValue<K, Integer>> count() {
-        return reduce(0, (count, next) -> count + 1);
+    public Pijp<KeyValue<K, Long>> count() {
+        Fields countField = new Fields(UUID.randomUUID().toString());
+        CountBy counted = new CountBy(pipe, keyField, countField);
+        return toKeyValue(counted, keyField, countField);
     }
 
     public Pijp<V> values() {
@@ -90,10 +93,10 @@ public class GroupedPijp<K, V> {
     }
 
     public Pijp<KeyValue<K, V>> toPijp() {
-        return toKeyValue(pipe);
+        return toKeyValue(pipe, keyField, valueField);
     }
 
-    private <T> Pijp<KeyValue<K, T>> toKeyValue(Pipe pipe) {
+    private <T> Pijp<KeyValue<K, T>> toKeyValue(Pipe pipe, Fields keyField, Fields valueField) {
         Fields outputField = new Fields(UUID.randomUUID().toString());
         Pipe transformed = new Each(pipe, keyField.append(valueField), new ToKeyValueFunction<>(keyField, valueField, outputField));
         return new Pijp<>(flowDef, mode, transformed, outputField);
