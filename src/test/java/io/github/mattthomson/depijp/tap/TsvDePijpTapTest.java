@@ -27,6 +27,16 @@ public class TsvDePijpTapTest {
     }
 
     @Test
+    public void shouldReadTabSeparatedValuesFromSkippingHeader() {
+        DePijpSource<List<String>> tap = new TsvDePijpTap("src/test/resources/header.tsv", 2, true);
+        assertThat(readFromSource(tap)).containsExactly(
+                ImmutableList.of("one", "1"),
+                ImmutableList.of("two", "2"),
+                ImmutableList.of("three", "3")
+        );
+    }
+
+    @Test
     public void shouldWriteLinesToFile() throws IOException {
         File outputFile = File.createTempFile("output", "tsv");
         outputFile.deleteOnExit();

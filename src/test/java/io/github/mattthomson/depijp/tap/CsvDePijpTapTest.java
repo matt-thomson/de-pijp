@@ -17,8 +17,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class CsvDePijpTapTest {
     @Test
-    public void shouldReadTabSeparatedValuesFromFile() {
+    public void shouldReadCommaSeparatedValuesFromFile() {
         DePijpSource<List<String>> tap = new CsvDePijpTap("src/test/resources/values.csv", 2);
+        assertThat(readFromSource(tap)).containsExactly(
+                ImmutableList.of("one", "1"),
+                ImmutableList.of("two", "2"),
+                ImmutableList.of("three", "3")
+        );
+    }
+
+    @Test
+    public void shouldReadCommaSeparatedValuesFromSkippingHeader() {
+        DePijpSource<List<String>> tap = new CsvDePijpTap("src/test/resources/header.csv", 2, true);
         assertThat(readFromSource(tap)).containsExactly(
                 ImmutableList.of("one", "1"),
                 ImmutableList.of("two", "2"),

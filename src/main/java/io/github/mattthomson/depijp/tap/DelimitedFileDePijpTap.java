@@ -20,11 +20,13 @@ import java.util.stream.IntStream;
 public abstract class DelimitedFileDePijpTap extends FileDePijpTap<List<String>> {
     protected final List<Fields> fields;
     private final String delimiter;
+    private final boolean skipHeader;
 
-    public DelimitedFileDePijpTap(String path, int numFields, String delimiter) {
+    public DelimitedFileDePijpTap(String path, int numFields, String delimiter, boolean skipHeader) {
         super(path);
 
         this.delimiter = delimiter;
+        this.skipHeader = skipHeader;
         this.fields = IntStream.range(0, numFields)
                 .mapToObj(i -> new Fields(String.format("%s-field-%s", path, i)))
                 .collect(Collectors.toList());
@@ -32,12 +34,12 @@ public abstract class DelimitedFileDePijpTap extends FileDePijpTap<List<String>>
 
     @Override
     protected Scheme<Properties, InputStream, OutputStream, ?, ?> getLocalScheme() {
-        return new cascading.scheme.local.TextDelimited(getOutputFields(), delimiter);
+        return new cascading.scheme.local.TextDelimited(getOutputFields(), skipHeader, false, delimiter);
     }
 
     @Override
     protected Scheme<JobConf, RecordReader, OutputCollector, ?, ?> getHadoopScheme() {
-        return new cascading.scheme.hadoop.TextDelimited(getOutputFields(), delimiter);
+        return new cascading.scheme.hadoop.TextDelimited(getOutputFields(), skipHeader, false, delimiter);
     }
 
     @Override
