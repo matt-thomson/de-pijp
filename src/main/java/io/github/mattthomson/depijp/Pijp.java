@@ -75,6 +75,7 @@ public class Pijp<T> {
 
     public void write(DePijpSink<T> sink) {
         Pipe transformed = new Each(pipe, field, new ToTupleEntryFunction<>(sink, field));
-        flowDef.addTailSink(transformed, mode.createSinkTap(sink));
+        Pipe renamed = new Pipe(UUID.randomUUID().toString(), transformed);
+        flowDef.addTailSink(renamed, mode.createSinkTap(sink));
     }
 }
