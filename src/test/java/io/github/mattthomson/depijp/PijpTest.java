@@ -1,10 +1,11 @@
 package io.github.mattthomson.depijp;
 
+import java.util.stream.Stream;
+
+import com.google.common.collect.Ordering;
 import io.github.mattthomson.depijp.sink.InMemoryDePijpSink;
 import io.github.mattthomson.depijp.source.InMemoryDePijpSource;
 import org.junit.Test;
-
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -125,7 +126,6 @@ public class PijpTest {
         );
     }
 
-
     @Test
     public void shouldFindUniques() {
         DePijpSource<Integer> source = new InMemoryDePijpSource<>(1, 2, 2, 1, 2, 3);
@@ -136,5 +136,17 @@ public class PijpTest {
         pijpBuilder.run();
 
         assertThat(sink.getValues()).containsExactly(1, 2, 3);
+    }
+
+    @Test
+    public void shouldSort() {
+        DePijpSource<Integer> source = new InMemoryDePijpSource<>(2, 4, 3, 1);
+        InMemoryDePijpSink<Integer> sink = new InMemoryDePijpSink<>();
+
+        PijpBuilder pijpBuilder = PijpBuilder.local();
+        pijpBuilder.read(source).sort(Ordering.<Integer>natural().reverse()).write(sink);
+        pijpBuilder.run();
+
+        assertThat(sink.getValues()).containsExactly(4, 3, 2, 1);
     }
 }
